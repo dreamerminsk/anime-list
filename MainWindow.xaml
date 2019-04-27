@@ -12,14 +12,29 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <ToolBar Grid.Column="0" Grid.Row="0">
+            <Button>
+                <Label>Text</Label>
+            </Button>
+            <Button/>
+            <Button/>
+            <Button/>
+            <Button/>
+            <Button/>
+            <Button/>
+            <Button/>
+            <Button/>
+            <Button/>
+        </ToolBar>
         <ListView 
+            
             Grid.Column="0" 
-            Grid.Row="0"
+            Grid.Row="1"
             Name="lvItems"
-            HorizontalAlignment="Left" 
-            Margin="10,10,0,0" 
-            VerticalAlignment="Top">
+            HorizontalAlignment="Stretch" 
+            Margin="10" HorizontalContentAlignment="Stretch">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Path=Title}"/>

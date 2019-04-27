@@ -35,14 +35,22 @@ namespace AnimeList
 
         private async void Load()
         {
-            HtmlWeb web = new HtmlWeb();
-            web.OverrideEncoding = Encoding.GetEncoding("Windows-1251");
-            var page = web.Load(@"http://nnmclub.to/forum/portal.php?c=1");
+            var page = await GetPage(@"http://nnmclub.to/forum/portal.php?c=1");
             var refs = page.DocumentNode.SelectNodes("//table[contains(@class, \"pline\")]//a[contains(concat(\" \", normalize-space(@class), \" \"), \" pgenmed \")]");
             foreach (var rf in refs)
             {
                 items.Add(new AnimeInfo { Title = rf.InnerText });
             }
+        }
+
+        private Task<HtmlDocument> GetPage(string uri)
+        {
+            var task = Task<HtmlDocument>.Factory.StartNew(() => {
+                HtmlWeb web = new HtmlWeb();
+                web.OverrideEncoding = Encoding.GetEncoding("Windows-1251");
+                return web.Load(uri);
+            });
+            return task;
         }
     }
 }
