@@ -22,11 +22,11 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ToolBar Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
+        <ToolBar Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Margin="10">
             <Button Command="{Binding PrevCommand}">
                 <Label Content="prev"/>
             </Button>
-            <TextBlock Text="{Binding CurrentPage}"></TextBlock>
+            <TextBlock Text="{Binding CurrentPage}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0"></TextBlock>
             <Button Command="{Binding NextCommand}">
                 <Label Content="next"/>
             </Button>

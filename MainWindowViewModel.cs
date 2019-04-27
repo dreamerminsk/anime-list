@@ -19,7 +19,7 @@ namespace AnimeList
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private int currentPage = 1;
+        private int currentPage = 0;
 
         private ObservableCollection<AnimeInfo> items = new ObservableCollection<AnimeInfo>();
 
