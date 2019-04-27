@@ -33,7 +33,30 @@ namespace AnimeList
         public MainWindowViewModel()
         {
             Load();
-        }        
+        }
+
+        private RelayCommand addCommand;
+        public RelayCommand AddCommand
+        {
+            get
+            {
+                return addCommand ??
+                  (addCommand = new RelayCommand(obj =>
+                  {
+                      MessageBox.Show("The Window is Fooing...");
+                  }));
+            }
+        }
+
+        void Next_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        void Next_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBox.Show("The Window is Fooing...");
+        }
 
         private async void Load()
         {

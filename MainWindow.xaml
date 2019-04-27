@@ -11,13 +11,6 @@
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
-    <Window.CommandBindings>
-        <CommandBinding
-            Command="{x:Static local:Commands.NextCommand}"
-            CanExecute="Next_CanExecute"
-            Executed="Next_Executed"
-            />
-    </Window.CommandBindings>
 
 
     <Grid Margin="5,5,5,5">
@@ -34,7 +27,7 @@
                 <Label Content="prev"/>
             </Button>
             <TextBox Text="1"></TextBox>
-            <Button Command="{x:Static local:Commands.NextCommand}">
+            <Button Command="{Binding AddCommand}">
                 <Label Content="next"/>
             </Button>
         </ToolBar>

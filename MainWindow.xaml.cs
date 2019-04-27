@@ -32,17 +32,7 @@ namespace AnimeList
             InitializeComponent();
             //topicGrid.ItemsSource = items;
             //Load();
-        }
-
-        void Next_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-
-        void Next_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            MessageBox.Show("The Window is Fooing...");
-        }
+        }        
 
         private async void Load()
         {
