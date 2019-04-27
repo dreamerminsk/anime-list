@@ -18,7 +18,20 @@ namespace AnimeList
         
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private int currentPage = 1;
+
         private ObservableCollection<AnimeInfo> items = new ObservableCollection<AnimeInfo>();
+
+        public int CurrentPage
+        {
+            get { return currentPage; }
+            set
+            {
+                currentPage = value;
+                OnPropertyChanged("CurrentPage");
+            }
+        }
 
         public ObservableCollection<AnimeInfo> Items
         {
@@ -35,36 +48,48 @@ namespace AnimeList
             Load();
         }
 
-        private RelayCommand addCommand;
-        public RelayCommand AddCommand
+        private RelayCommand prevCommand;
+        public RelayCommand PrevCommand
         {
             get
             {
-                return addCommand ??
-                  (addCommand = new RelayCommand(obj =>
+                return prevCommand ??
+                  (prevCommand = new RelayCommand(obj =>
                   {
-                      MessageBox.Show("The Window is Fooing...");
+                      if (CurrentPage > 0)
+                      {
+                          CurrentPage -= 1;
+                          Load();
+                      }
                   }));
             }
         }
 
-        void Next_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        private RelayCommand nextCommand;
+        public RelayCommand NextCommand
         {
-            e.CanExecute = true;
-        }
-
-        void Next_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            MessageBox.Show("The Window is Fooing...");
+            get
+            {
+                return nextCommand ??
+                  (nextCommand = new RelayCommand(obj =>
+                  {
+                      CurrentPage += 1;
+                      Load();
+                  }));
+            }
         }
 
         private async void Load()
         {
-            var page = await GetPage(@"http://nnmclub.to/forum/portal.php?c=1");
-            var refs = page.DocumentNode.SelectNodes("//table[contains(@class, \"pline\")]//a[contains(concat(\" \", normalize-space(@class), \" \"), \" pgenmed \")]");
+            var html = await GetPage(@"http://nnmclub.to/forum/portal.php?c=1&start=" + 20 * currentPage);
+            var refs = html.DocumentNode.SelectNodes("//table[contains(@class, \"pline\")]//td[contains(@class, \"pcatHead\")]//a[contains(concat(\" \", normalize-space(@class), \" \"), \" pgenmed \")]");
+            items.Clear();
             foreach (var rf in refs)
             {
-                items.Add(new AnimeInfo { Topic = rf.InnerText });
+                if (!rf.InnerText.Equals("Популярные раздачи"))
+                {
+                    items.Add(new AnimeInfo { Topic = rf.InnerText });
+                }
             }
             return;
         }

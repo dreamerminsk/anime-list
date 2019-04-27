@@ -23,11 +23,11 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <ToolBar Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
-            <Button>
+            <Button Command="{Binding PrevCommand}">
                 <Label Content="prev"/>
             </Button>
-            <TextBox Text="1"></TextBox>
-            <Button Command="{Binding AddCommand}">
+            <TextBlock Text="{Binding CurrentPage}"></TextBlock>
+            <Button Command="{Binding NextCommand}">
                 <Label Content="next"/>
             </Button>
         </ToolBar>
@@ -41,7 +41,7 @@
             AutoGenerateColumns="True" 
             HorizontalContentAlignment="Stretch" 
             VerticalContentAlignment="Stretch" 
-            GridLinesVisibility="None">            
+            GridLinesVisibility="None" VerticalScrollBarVisibility="Visible">            
         </DataGrid>
 
     </Grid>
