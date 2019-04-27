@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using LiteDB;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,39 +20,55 @@ namespace AnimeList
 {
 
     
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-
-        private ObservableCollection<AnimeInfo> items = new ObservableCollection<AnimeInfo>();
 
         public MainWindow()
         {
             InitializeComponent();
-            //topicGrid.ItemsSource = items;
-            //Load();
-        }        
-
-        private async void Load()
-        {
-            var page = await GetPage(@"http://nnmclub.to/forum/portal.php?c=1");
-            var refs = page.DocumentNode.SelectNodes("//table[contains(@class, \"pline\")]//a[contains(concat(\" \", normalize-space(@class), \" \"), \" pgenmed \")]");
-            foreach (var rf in refs)
+            using (var db = new LiteDatabase(@"anime-list.litedb"))
             {
-                items.Add(new AnimeInfo { Topic = rf.InnerText });
+                var col = db.GetCollection<AnimeInfo>("anime");
+                col.EnsureIndex(x => x.Topic);
             }
         }
 
-        private Task<HtmlDocument> GetPage(string uri)
+        private void TopicGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            var task = Task<HtmlDocument>.Factory.StartNew(() => {
-                HtmlWeb web = new HtmlWeb();
-                web.OverrideEncoding = Encoding.GetEncoding("Windows-1251");
-                return web.Load(uri);
-            });
-            return task;
+            AnimeInfo anime = (AnimeInfo)e.Row.Item;
+            Console.WriteLine(anime.Episodes);
+            Console.WriteLine(e.Column.Header);
+            TextBox text = (TextBox)e.EditingElement;
+            Console.WriteLine(text.Text);
+            if (String.Equals(e.Column.Header, "EngTitle"))
+            {
+                anime.EngTitle = text.Text;
+            }
+            if (String.Equals(e.Column.Header, "RusTitle"))
+            {
+                anime.RusTitle = text.Text;
+            }
+            if (String.Equals(e.Column.Header, "Year"))
+            {
+                anime.Year = int.Parse(text.Text);
+            }
+            if (String.Equals(e.Column.Header, "Episodes"))
+            {
+                anime.Episodes = int.Parse(text.Text);
+            }
+            if (String.Equals(e.Column.Header, "Topic"))
+            {
+                return;
+            }
+            if (String.Equals(e.Column.Header, "ID"))
+            {
+                return;
+            }
+            using (var db = new LiteDatabase(@"anime-list.litedb"))
+            {
+                var col = db.GetCollection<AnimeInfo>("anime");
+                col.Update(anime);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using LiteDB;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -84,11 +85,25 @@ namespace AnimeList
             var html = await GetPage(@"http://nnmclub.to/forum/portal.php?c=1&start=" + 20 * currentPage);
             var refs = html.DocumentNode.SelectNodes("//table[contains(@class, \"pline\")]//td[contains(@class, \"pcatHead\")]//a[contains(concat(\" \", normalize-space(@class), \" \"), \" pgenmed \")]");
             items.Clear();
-            foreach (var rf in refs)
+            using (var db = new LiteDatabase(@"anime-list.litedb"))
             {
-                if (!rf.InnerText.Equals("Популярные раздачи"))
+                var col = db.GetCollection<AnimeInfo>("anime");
+                foreach (var rf in refs)
                 {
-                    items.Add(new AnimeInfo { Topic = rf.InnerText });
+                    if (!rf.InnerText.Equals("Популярные раздачи"))
+                    {
+                        var dbref = col.FindOne(x => x.Topic == rf.InnerText);
+                        if (dbref != null)
+                        {
+                            items.Add(dbref);
+                        }
+                        else
+                        {
+                            var item = new AnimeInfo { Topic = rf.InnerText };
+                            col.Insert(item);
+                            items.Add(item);
+                        }                        
+                    }
                 }
             }
             return;

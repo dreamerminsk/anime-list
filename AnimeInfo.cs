@@ -14,9 +14,24 @@ namespace AnimeList
         {
         }
 
-        public AnimeInfo(string engTitle, string rusTitle, int year, int episodes, string topic)
+        public AnimeInfo(int id, string engTitle, string rusTitle, int year, int episodes, string topic)
         {
+            ID = id;
+            EngTitle = engTitle;
+            RusTitle = rusTitle;
+            Year = year;
+            Episodes = episodes;
+            Topic = topic;
+        }
 
+        public int ID
+        {
+            get { return mId; }
+            set
+            {
+                mId = value;
+                OnPropertyChanged("ID");
+            }
         }
 
         public string EngTitle
@@ -78,6 +93,7 @@ namespace AnimeList
             }
         }
 
+        private int mId;
         private string mEngTitle;
         private string mRusTitle;
         private int mYear;

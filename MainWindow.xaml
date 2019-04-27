@@ -41,7 +41,9 @@
             AutoGenerateColumns="True" 
             HorizontalContentAlignment="Stretch" 
             VerticalContentAlignment="Stretch" 
-            GridLinesVisibility="None" VerticalScrollBarVisibility="Visible">            
+            GridLinesVisibility="None" 
+            VerticalScrollBarVisibility="Visible"
+            CellEditEnding="TopicGrid_CellEditEnding">            
         </DataGrid>
 
     </Grid>
