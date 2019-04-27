@@ -2,36 +2,32 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace AnimeList
 {
 
-    
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public class MainWindowViewModel : INotifyPropertyChanged
     {
-
+        public event PropertyChangedEventHandler PropertyChanged;
         private ObservableCollection<AnimeInfo> items = new ObservableCollection<AnimeInfo>();
 
-        public MainWindow()
+        public ObservableCollection<AnimeInfo> Items
         {
-            InitializeComponent();
-            //topicGrid.ItemsSource = items;
-            //Load();
+            get { return items; }
+            set
+            {
+                items = value;
+                OnPropertyChanged("Items");
+            }
+        }
+
+        public MainWindowViewModel()
+        {
+            Load();
         }
 
         private async void Load()
@@ -42,16 +38,28 @@ namespace AnimeList
             {
                 items.Add(new AnimeInfo { Topic = rf.InnerText });
             }
+            return;
         }
 
         private Task<HtmlDocument> GetPage(string uri)
         {
-            var task = Task<HtmlDocument>.Factory.StartNew(() => {
+            var task = Task<HtmlDocument>.Factory.StartNew(() =>
+            {
                 HtmlWeb web = new HtmlWeb();
                 web.OverrideEncoding = Encoding.GetEncoding("Windows-1251");
                 return web.Load(uri);
             });
             return task;
         }
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
     }
 }

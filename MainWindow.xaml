@@ -25,7 +25,21 @@
                 <Label Content="next"/>
             </Button>
         </ToolBar>
-        <DataGrid x:Name="topicGrid" Grid.Row="1" Grid.Column="0" Margin="10" Padding="5,5,5,5" AutoGenerateColumns="True" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" GridLinesVisibility="None"/>
+        <DataGrid 
+            x:Name="topicGrid" 
+            Grid.Row="1" 
+            Grid.Column="0" 
+            Margin="10" 
+            Padding="5,5,5,5"
+            ItemsSource="{Binding Items}"
+            AutoGenerateColumns="True" 
+            HorizontalContentAlignment="Stretch" 
+            VerticalContentAlignment="Stretch" 
+            GridLinesVisibility="None">
+            <DataGrid.DataContext>
+                <local:MainWindowViewModel/>
+            </DataGrid.DataContext>
+        </DataGrid>
 
     </Grid>
 </Window>
