@@ -1,6 +1,7 @@
 ﻿using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,12 +25,12 @@ namespace AnimeList
     public partial class MainWindow : Window
     {
 
-        private List<AnimeInfo> items = new List<AnimeInfo>();
+        private ObservableCollection<AnimeInfo> items = new ObservableCollection<AnimeInfo>();
 
         public MainWindow()
         {
             InitializeComponent();
-            lvItems.ItemsSource = items;
+            topicGrid.ItemsSource = items;
             Load();
         }
 
@@ -39,7 +40,7 @@ namespace AnimeList
             var refs = page.DocumentNode.SelectNodes("//table[contains(@class, \"pline\")]//a[contains(concat(\" \", normalize-space(@class), \" \"), \" pgenmed \")]");
             foreach (var rf in refs)
             {
-                items.Add(new AnimeInfo { Title = rf.InnerText });
+                items.Add(new AnimeInfo { Topic = rf.InnerText });
             }
         }
 

@@ -9,38 +9,18 @@
     <Grid Margin="5,5,5,5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ToolBar Grid.Column="0" Grid.Row="0">
+        <ToolBar Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
             <Button>
                 <Label>Text</Label>
             </Button>
-            <Button/>
-            <Button/>
-            <Button/>
-            <Button/>
-            <Button/>
-            <Button/>
-            <Button/>
-            <Button/>
-            <Button/>
         </ToolBar>
-        <ListView 
-            
-            Grid.Column="0" 
-            Grid.Row="1"
-            Name="lvItems"
-            HorizontalAlignment="Stretch" 
-            Margin="10" HorizontalContentAlignment="Stretch">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Path=Title}"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <DataGrid x:Name="topicGrid" Grid.Row="1" Grid.Column="0" Margin="10" Padding="5,5,5,5" AutoGenerateColumns="True" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" GridLinesVisibility="None"/>
 
     </Grid>
 </Window>
