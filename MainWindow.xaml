@@ -7,6 +7,19 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="AnimeList.MainWindow"
         mc:Ignorable="d"
         Title="anime-list" Height="540.726" Width="919.758">
+
+    <Window.DataContext>
+        <local:MainWindowViewModel/>
+    </Window.DataContext>
+    <Window.CommandBindings>
+        <CommandBinding
+            Command="{x:Static local:Commands.NextCommand}"
+            CanExecute="Next_CanExecute"
+            Executed="Next_Executed"
+            />
+    </Window.CommandBindings>
+
+
     <Grid Margin="5,5,5,5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -21,7 +34,7 @@
                 <Label Content="prev"/>
             </Button>
             <TextBox Text="1"></TextBox>
-            <Button>
+            <Button Command="{x:Static local:Commands.NextCommand}">
                 <Label Content="next"/>
             </Button>
         </ToolBar>
@@ -35,10 +48,7 @@
             AutoGenerateColumns="True" 
             HorizontalContentAlignment="Stretch" 
             VerticalContentAlignment="Stretch" 
-            GridLinesVisibility="None">
-            <DataGrid.DataContext>
-                <local:MainWindowViewModel/>
-            </DataGrid.DataContext>
+            GridLinesVisibility="None">            
         </DataGrid>
 
     </Grid>

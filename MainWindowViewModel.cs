@@ -6,12 +6,17 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace AnimeList
 {
 
     public class MainWindowViewModel : INotifyPropertyChanged
     {
+
+        
+
         public event PropertyChangedEventHandler PropertyChanged;
         private ObservableCollection<AnimeInfo> items = new ObservableCollection<AnimeInfo>();
 
@@ -28,7 +33,7 @@ namespace AnimeList
         public MainWindowViewModel()
         {
             Load();
-        }
+        }        
 
         private async void Load()
         {

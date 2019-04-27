@@ -34,6 +34,16 @@ namespace AnimeList
             //Load();
         }
 
+        void Next_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        void Next_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBox.Show("The Window is Fooing...");
+        }
+
         private async void Load()
         {
             var page = await GetPage(@"http://nnmclub.to/forum/portal.php?c=1");
