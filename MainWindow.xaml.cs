@@ -64,7 +64,7 @@ namespace AnimeList
             {
                 return;
             }
-            using (var db = new LiteDatabase(@"anime-list.litedb"))
+            using (var db = new LiteDatabase(@"C:\Users\User\YandexDisk\anime-list.litedb"))
             {
                 var col = db.GetCollection<AnimeInfo>("anime");
                 col.Update(anime);
